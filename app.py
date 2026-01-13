@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
 from prophet import Prophet
+from prophet.serialize import model_to_json
 import datetime
 import os
 import matplotlib.pyplot as plt
 import google.generativeai as genai
+
 
 # ==========================
 # CONFIGURE GEMINI API
@@ -61,7 +63,7 @@ if uploaded_file:
                 st.subheader("🔮 Forecasting with Prophet")
 
                 with st.spinner("Running forecast..."):
-                    m = Prophet(weekly_seasonality=True, yearly_seasonality=True)
+                    m = Prophet(weekly_seasonality=True, yearly_seasonality=True,stan_backend="CMDSTANPY")
                     m.fit(daily)
                     future = m.make_future_dataframe(periods=forecast_days)
                     forecast = m.predict(future)
