@@ -1,34 +1,34 @@
-# ---------- Base image ----------
-FROM python:3.10-slim
+FROM python:3.10.13
 
-# ---------- Environment settings ----------
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# ---------- System dependencies ----------
+# System deps required by Prophet + matplotlib
 RUN apt-get update && apt-get install -y \
     build-essential \
+    gcc \
+    g++ \
+    make \
+    libglib2.0-0 \
+    libxrender1 \
+    libsm6 \
+    libxext6 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# ---------- Working directory ----------
 WORKDIR /app
 
-# ---------- Copy requirements ----------
 COPY requirements.txt .
 
-# ---------- Install Python dependencies ----------
 RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
-# ---------- Copy application code ----------
-#COPY app.py .
+# ⬅️ THIS MUST NOT BE COMMENTED
+COPY . .
 
-# ---------- Create output directory ----------
-#RUN mkdir -p /app/output
+RUN mkdir -p /app/output
 
-# ---------- Expose Streamlit port ----------
-EXPOSE 8501
+# ✅ Render expects port 10000
+EXPOSE 10000
 
-# ---------- Run Streamlit ----------
-CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "app.py", "--server.port=10000", "--server.address=0.0.0.0"]
