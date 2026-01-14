@@ -9,4 +9,5 @@ protobuf>=3.20.2,<6.0.0
 
 python-dateutil
 pytz
+openpyxl
 cmdstanpy==1.2.2
