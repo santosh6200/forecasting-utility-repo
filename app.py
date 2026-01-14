@@ -15,7 +15,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # ==========================
 # OUTPUT DIRECTORY
 # ==========================
-OUTPUT_DIR = "/app/output"
+OUTPUT_DIR = "/tmp/output"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # ==========================
@@ -67,7 +67,7 @@ if uploaded_file:
         # =====================================
         # 📈 FORECAST FEATURE
         # =====================================
-        if feature == "📈 Forecast Tickets Using Prophet":
+        if feature == "📈 Forecast Tickets":
 
             forecast_days = st.slider("Select Forecast Horizon (Days)", 30, 365, 180, step=30)
             df = df.dropna(subset=["CREATED_ON"])
@@ -120,7 +120,7 @@ if uploaded_file:
         # =====================================
         # 🤖 GEMINI AI DATA ASSISTANT (UPGRADED)
         # =====================================
-        elif feature == "🤖 Data Q&A Using gemini":
+        elif feature == "🤖 AI-powered Data Assistant":
 
             st.subheader("💬 Talk to Your Data")
 
@@ -193,3 +193,4 @@ if uploaded_file:
 
                             except Exception as e:
                                 st.error(f"⚠️ Error executing the code: {e}")
+
